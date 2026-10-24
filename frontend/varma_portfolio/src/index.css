@@ -1,0 +1,23 @@
+:root {
+  --cyan: #05d8ec;
+  --line: #075363;
+  --white: #e9f5f7;
+  --muted: #91adb6;
+  --mono: "Cascadia Code", Consolas, monospace;
+  color: var(--white);
+  background: #02151d;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
+* { box-sizing: border-box; }
+body { background: radial-gradient(ellipse at 50% 0%, #052a34 0, #02151d 56rem); margin: 0; min-width: 320px; min-height: 100vh; }
+button, input { font: inherit; }
+::selection { background: #00d6e855; color: #effcff; }
