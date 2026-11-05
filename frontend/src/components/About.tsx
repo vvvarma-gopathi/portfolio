@@ -7,7 +7,7 @@ export default function About() {
     <div className="about-copy"><p className="eyebrow">♧ &nbsp; ABOUT ME</p>
       <h2>Vishnu Vardhan Varma</h2>
       <p>I’m a Computer Science student at Government Degree College Khairatabad (Osmania University), expected to graduate in 2027. I enjoy building full-stack applications with Python and modern web technologies, exploring Generative AI, and turning ideas into useful products. I like working on real-world problems, learning new technologies, and continuously improving my skills.</p>
-      <a className="button" href="#contact">Download Resume &nbsp; →</a>
+      <a className="button" href="/Vishnu_Varma_PythonGenAI_Resume.docx" download="Vishnu_Varma_PythonGenAI_Resume.docx">Download Resume <i className="bi bi-box-arrow-down"></i></a>
     </div>
     <div className="about-facts">{details.map(([icon, title, ...text]) => 
       <div className="about-fact" key={title}><b>{icon}</b>

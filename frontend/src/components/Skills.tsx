@@ -66,6 +66,7 @@ export default function Skills() {
   return (
     <section className="panel skills-panel" id="skills">
       <p className="eyebrow">TECHNICAL SKILLS</p>
+      <i className="fi fi-ss-download"></i>
       <h2>Technologies I Work With</h2>
       <div className="skill-grid">
         {groups.map((group) => (
