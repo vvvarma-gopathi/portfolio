@@ -12,7 +12,6 @@ dist
 dist-ssr
 *.local
 .env
-backend/chroma_db/
 
 # Editor directories and files
 .vscode/*
