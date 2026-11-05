@@ -94,7 +94,7 @@ function Assistant() {
     setIsLoading(true)
 
     try {
-      const response = await fetch('http://localhost:8000/assistant', {
+      const response = await fetch('https://portfolio-9jph.onrender.com/assistant', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: trimmed }),
@@ -134,7 +134,7 @@ function Assistant() {
 
     setIsConnectionSubmitting(true)
     try {
-      const response = await fetch('http://localhost:8000/connect', {
+      const response = await fetch('https://portfolio-9jph.onrender.com/connect', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
