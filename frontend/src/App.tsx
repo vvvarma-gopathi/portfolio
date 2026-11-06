@@ -294,6 +294,18 @@ function WhyHireMe() {
 
 function App() {
   useEffect(() => {
+    void fetch('https://portfolio-9jph.onrender.com/health')
+      .then((response) => {
+        if (!response.ok) {
+          console.error(`The health check failed (${response.status}).`)
+        }
+      })
+      .catch((error: unknown) => {
+        console.error('Unable to reach the backend health endpoint.', error)
+      })
+  }, [])
+
+  useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>('.page-shell > section')
     if (
       window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
