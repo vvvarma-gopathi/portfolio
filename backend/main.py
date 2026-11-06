@@ -1,6 +1,4 @@
-import asyncio
 import logging
-import smtplib
 
 from email_validator import EmailNotValidError, validate_email
 from fastapi import FastAPI, HTTPException
@@ -10,7 +8,13 @@ from chromadb.errors import ChromaError
 from pydantic import BaseModel, Field, field_validator
 
 from config import get_settings
-from email_service import EmailConfigurationError, send_connection_email
+from email_service import (
+    EmailConfigurationError,
+    EmailDeliveryError,
+    EmailRateLimitError,
+    EmailTimeoutError,
+    send_connection_email,
+)
 from rag import AssistantConfigurationError, generate_answer
 
 logger = logging.getLogger(__name__)
@@ -94,26 +98,36 @@ def health() -> dict[str, str]:
 @app.post("/connect", response_model=ConnectionResponse)
 async def connect(request: ConnectionRequest) -> ConnectionResponse:
     try:
-        await asyncio.to_thread(
-            send_connection_email,
+        await send_connection_email(
             request.name,
             request.email,
             request.reason,
         )
     except EmailConfigurationError as exc:
-        logger.error("Connection email is not configured")
+        logger.error("Connection email configuration is invalid or incomplete")
         raise HTTPException(
             status_code=503,
             detail="Connection requests are temporarily unavailable.",
         ) from exc
-    except (smtplib.SMTPException, OSError) as exc:
-        logger.exception("Failed to send portfolio connection email")
+    except EmailRateLimitError as exc:
+        logger.warning("Resend rate-limited a connection email")
+        raise HTTPException(
+            status_code=429,
+            detail="Connection requests are temporarily unavailable. Please try again later.",
+        ) from exc
+    except EmailTimeoutError as exc:
+        raise HTTPException(
+            status_code=504,
+            detail="The connection request could not be sent. Please try again later.",
+        ) from exc
+    except EmailDeliveryError as exc:
+        logger.error("Failed to send portfolio connection email")
         raise HTTPException(
             status_code=502,
             detail="The connection request could not be sent. Please try again later.",
         ) from exc
 
-    return ConnectionResponse(message="Your connection request was sent.")
+    return ConnectionResponse(message="Your connection request was submitted.")
 
 
 @app.post("/assistant", response_model=AssistantResponse)

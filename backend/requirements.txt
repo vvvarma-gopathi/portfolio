@@ -3,4 +3,5 @@ email-validator>=2.0.0
 fastapi>=0.162.0
 google-genai>=1.0.0
 pydantic-settings>=2.0.0
+resend[async]>=2.52.0
 uvicorn>=0.54.0

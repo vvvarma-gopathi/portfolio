@@ -1,30 +1,48 @@
-import smtplib
-from email.message import EmailMessage
+import logging
 
+import httpx
+import resend
 from config import get_settings
+from resend.exceptions import ResendError
 
-RECIPIENT_EMAIL = "vishnuvardhangopathi@gmail.com"
+logger = logging.getLogger(__name__)
+RECIPIENT_EMAIL = "vishnuvardhangopathi5@gmail.com"
 
 
 class EmailConfigurationError(RuntimeError):
-    """Raised when SMTP credentials have not been configured."""
+    """Raised when Resend credentials or sender configuration are invalid."""
 
 
-def send_connection_email(name: str, email: str, reason: str | None) -> None:
+class EmailDeliveryError(RuntimeError):
+    """Raised when Resend cannot accept a connection notification."""
+
+
+class EmailRateLimitError(EmailDeliveryError):
+    """Raised when Resend rate-limits a connection notification."""
+
+
+class EmailTimeoutError(EmailDeliveryError):
+    """Raised when a Resend request times out."""
+
+
+async def send_connection_email(
+    name: str,
+    email: str,
+    reason: str | None,
+) -> str:
     settings = get_settings()
-    sender_email = settings.smtp_sender_email or settings.smtp_username
-    if not settings.smtp_username or not settings.smtp_password or not sender_email:
+    if not settings.resend_api_key or not settings.sender_email:
         raise EmailConfigurationError(
-            "Connection email is not configured. Set SMTP_USERNAME and SMTP_PASSWORD."
+            "Connection email is not configured. Set RESEND_API_KEY and SENDER_EMAIL."
         )
 
-    message = EmailMessage()
-    message["Subject"] = f"Portfolio connection request from {name}"
-    message["From"] = sender_email
-    message["To"] = RECIPIENT_EMAIL
-    message["Reply-To"] = email
-    message.set_content(
-        "\n".join(
+    resend.api_key = settings.resend_api_key
+    params: resend.Emails.SendParams = {
+        "from": settings.sender_email,
+        "to": [RECIPIENT_EMAIL],
+        "reply_to": email,
+        "subject": f"Portfolio connection request from {name}",
+        "text": "\n".join(
             [
                 "A visitor submitted a connection request through the portfolio assistant.",
                 "",
@@ -32,12 +50,28 @@ def send_connection_email(name: str, email: str, reason: str | None) -> None:
                 f"Email: {email}",
                 f"Reason: {reason or 'Not provided'}",
             ]
-        )
-    )
+        ),
+    }
 
-    with smtplib.SMTP(settings.smtp_host, settings.smtp_port, timeout=15) as smtp:
-        smtp.ehlo()
-        smtp.starttls()
-        smtp.ehlo()
-        smtp.login(settings.smtp_username, settings.smtp_password)
-        smtp.send_message(message)
+    try:
+        response = await resend.Emails.send_async(params)
+    except httpx.TimeoutException as exc:
+        logger.error("Resend email request timed out")
+        raise EmailTimeoutError from exc
+    except httpx.RequestError as exc:
+        logger.error("Resend email request failed (%s)", type(exc).__name__)
+        raise EmailDeliveryError from exc
+    except ResendError as exc:
+        code = str(exc.code)
+        logger.error(
+            "Resend rejected connection email (code=%s, type=%s)",
+            code,
+            exc.error_type,
+        )
+        if code == "429":
+            raise EmailRateLimitError from exc
+        if code in {"400", "401", "403", "422"}:
+            raise EmailConfigurationError from exc
+        raise EmailDeliveryError from exc
+
+    return response["id"]

@@ -8,18 +8,16 @@ Never commit an API key.
 
 ## Connection request email
 
-Configure SMTP in the repository root `.env` to enable the assistant's
-connection-request form. For Gmail, use a Google App Password (not your account
-password) for `SMTP_PASSWORD`. Connection requests are sent only after the
-visitor submits the form and consents. The recipient is fixed to
-`vishnuvardhangopathi@gmail.com`; the visitor's email is set as Reply-To.
+Configure Resend in the repository root `.env` to enable the assistant's
+connection-request form. Set `SENDER_EMAIL` to a verified sending-domain
+address in production. `onboarding@resend.dev` is suitable for testing only.
+Connection requests are sent only after the visitor submits the form and
+consents. The recipient is fixed to `vishnuvardhangopathi@gmail.com`; the
+visitor's email is set as Reply-To.
 
 ```env
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USERNAME=your-sender@gmail.com
-SMTP_PASSWORD=your-google-app-password
-SMTP_SENDER_EMAIL=your-sender@gmail.com
+RESEND_API_KEY=re_your_api_key
+SENDER_EMAIL=onboarding@resend.dev
 ```
 
 ## Run

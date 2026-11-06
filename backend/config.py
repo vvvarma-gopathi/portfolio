@@ -23,11 +23,8 @@ class Settings(BaseSettings):
     chroma_persist_directory: Path = PROJECT_ROOT / "backend" / "chroma_db"
     chroma_collection_name: str = "portfolio_knowledge"
     rag_top_k: int = Field(default=5, ge=1, le=20)
-    smtp_host: str = "smtp.gmail.com"
-    smtp_port: int = Field(default=587, ge=1, le=65535)
-    smtp_username: str = ""
-    smtp_password: str = ""
-    smtp_sender_email: str = ""
+    resend_api_key: str = ""
+    sender_email: str = ""
 
 
 @lru_cache
