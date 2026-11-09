@@ -19,7 +19,7 @@ export default function Training() {
       </div>
       <article className="training-card">
         <div className="training-overview">
-          <span className="training-mark" aria-hidden="true"><img src="src\assets\student_tribe.png" alt="Student Tribe" style={{width: '42px', height: '42px', borderRadius: '25%'}}/></span>
+          <span className="training-mark" aria-hidden="true"><img src="src/assets/student_tribe.png" alt="Student Tribe" style={{width: '42px', height: '42px', borderRadius: '25%'}}/></span>
           <div>
             <h3>Full Stack Python &amp; Generative AI Trainee</h3>
             <p className="training-organization">Student Tribe</p>

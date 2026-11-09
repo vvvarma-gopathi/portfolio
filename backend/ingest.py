@@ -2,7 +2,7 @@ from pathlib import Path
 
 from rag import add_document_chunks
 
-path = Path("C:\\Users\\shiva\\Downloads\\project_knowledge_base.md")
+path = Path("C:\\Users\\shiva\\Downloads\\portfolio_knowledge_base_final.md")
 text = path.read_text(encoding="utf-8")
 
 chunk_size = 1000
