@@ -1,12 +1,14 @@
 :root {
-  --cyan: #05d8ec;
-  --line: #075363;
-  --white: #e9f5f7;
-  --muted: #91adb6;
-  --mono: "Cascadia Code", Consolas, monospace;
+  --cyan: #00f2fe;
+  --line: rgba(255, 255, 255, 0.08);
+  --white: #ffffff;
+  --muted: #94a3b8;
+  --surface: #12161f;
+  --mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+  --accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 50%, #6a11cb 100%);
   color: var(--white);
-  background: #02151d;
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  background: #0a0b0e;
+  font-family: "Plus Jakarta Sans", Inter, "Segoe UI", Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -18,6 +20,6 @@
 }
 
 * { box-sizing: border-box; }
-body { background: radial-gradient(ellipse at 50% 0%, #052a34 0, #02151d 56rem); margin: 0; min-width: 320px; min-height: 100vh; }
+body { background: radial-gradient(ellipse at 50% 0%, #111722 0, #0a0b0e 56rem); margin: 0; min-width: 320px; min-height: 100vh; }
 button, input { font: inherit; }
 ::selection { background: #00d6e855; color: #effcff; }

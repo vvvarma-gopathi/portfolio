@@ -208,3 +208,281 @@ h2 { font-size: 23px; }
   .assistant-body > p:first-child { font-size: 12px; }
   .assistant-body .chat-message { font-size: 12px; }
 }
+
+/* Shared visual system */
+body {
+  background: radial-gradient(ellipse at 50% 0%, #111722 0, #0a0b0e 56rem);
+  color: var(--white);
+}
+
+.site-header {
+  background: rgba(10, 11, 14, .92);
+  border-bottom-color: var(--line);
+}
+
+.site-header nav a:hover,
+.site-header nav a.active {
+  background: rgba(79, 172, 254, .12);
+}
+
+.header-links .resume-link,
+.brand-mark,
+.back-top {
+  border-color: rgba(79, 172, 254, .55);
+}
+
+.hero-copy h1 {
+  background: var(--accent-gradient);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+.eyebrow {
+  letter-spacing: .14em;
+  background: var(--accent-gradient);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+h2,
+h3,
+h4,
+.brand strong,
+.project-card h3,
+.skill-card h3,
+.training-overview h3,
+.achievement-card strong,
+.contact-card strong,
+.assistant-header strong {
+  color: #fff;
+}
+
+.hero-description,
+.why-copy > p:last-child,
+.project-subtitle,
+.project-description,
+.skill-list li,
+.about-copy > p:not(.eyebrow),
+.training-description,
+.fun-project-focus,
+.contact-heading p,
+.assistant-body > p:first-child {
+  color: #94a3b8;
+}
+
+.button-primary,
+.project-demo-button,
+.connection-form > button,
+.assistant-input button {
+  background: var(--accent-gradient);
+  border-color: transparent;
+  color: #080b12;
+  box-shadow: 0 8px 24px rgba(79, 172, 254, .18);
+}
+
+.button-primary:hover {
+  background: var(--accent-gradient);
+  box-shadow: 0 10px 28px rgba(79, 172, 254, .3);
+  transform: translateY(-2px);
+}
+
+.button,
+.project-card,
+.skill-card,
+.training-card,
+.achievement-card,
+.contact-card,
+.training-areas li {
+  transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease, background .25s ease;
+}
+
+.project-demo-button,
+.project-demo-button:hover {
+  transform: translate(-50%, -50%);
+}
+
+.project-demo-button {
+  transition: none;
+}
+
+.project-card,
+.skill-card,
+.training-card,
+.achievement-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+}
+
+.project-card:hover,
+.skill-card:hover,
+.training-card:hover,
+.achievement-card:hover,
+.contact-card:hover,
+.training-areas li:hover {
+  background: linear-gradient(var(--surface), var(--surface)) padding-box, var(--accent-gradient) border-box;
+  border-color: transparent;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .28), 0 0 22px rgba(79, 172, 254, .12);
+  transform: translateY(-2px);
+}
+
+.panel {
+  background: rgba(18, 22, 31, .76);
+  border-color: var(--line);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .14);
+}
+
+.stats-strip,
+.why-list,
+.about-facts,
+.contact-card,
+.assistant-panel {
+  border-color: var(--line);
+}
+
+.stats-strip {
+  background: rgba(18, 22, 31, .82);
+}
+
+.stats-strip > div {
+  border-right-color: var(--line);
+}
+
+.status {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .01em;
+}
+
+.training-status {
+  background: rgba(52, 211, 153, .14);
+  border-color: rgba(52, 211, 153, .38);
+  color: #6ee7b7;
+  font-family: var(--mono);
+}
+
+.status-deployed {
+  background: rgba(52, 211, 153, .16);
+  border: 1px solid rgba(52, 211, 153, .4);
+  color: #6ee7b7;
+}
+
+.status-development {
+  background: rgba(251, 191, 36, .14);
+  border: 1px solid rgba(251, 191, 36, .38);
+  color: #fcd34d;
+}
+
+.tag-row span,
+.tech-stack span,
+.stats-strip span,
+.editor-top,
+.editor-code,
+.hand-note,
+.skill-list li,
+.assistant-markdown code {
+  font-family: var(--mono);
+}
+
+.tag-row span {
+  background: rgba(79, 172, 254, .1);
+  border-color: rgba(79, 172, 254, .24);
+  color: #cbd5e1;
+}
+
+.tech-stack span {
+  background: rgba(18, 22, 31, .88);
+  border-color: rgba(79, 172, 254, .28);
+  color: #e2e8f0;
+}
+
+.hero-visual {
+  background-image: linear-gradient(90deg, #0a0b0e 0%, #0a0b0e20 28%, transparent 55%), url('./assets/developer-workspace.png');
+}
+
+.project-preview,
+.fun-project-preview {
+  border-color: rgba(255, 255, 255, .12);
+}
+
+.skill-card {
+  border-radius: 10px;
+}
+
+.project-card,
+.training-card,
+.achievement-card,
+.contact-card {
+  border-radius: 10px;
+}
+
+.why-copy > p:last-child,
+.project-description,
+.about-copy > p:not(.eyebrow),
+.training-description,
+.assistant-body > p:first-child {
+  line-height: 1.75;
+}
+
+.assistant-panel {
+  background: #12161f;
+  border-color: rgba(79, 172, 254, .25);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .4);
+}
+
+.assistant-header,
+.assistant-body > p:first-child,
+.assistant-body .chat-message-assistant,
+.connection-form {
+  background: #171d28;
+  border-color: var(--line);
+}
+
+.assistant-input input,
+.connection-form input:not([type="checkbox"]),
+.connection-form textarea {
+  background: #0d1118;
+  border-color: var(--line);
+}
+
+.assistant-body .chat-message-assistant,
+.assistant-body > p:first-child,
+.connection-form > label {
+  color: #94a3b8;
+}
+
+.sound-toggle {
+  align-items: center;
+  background: rgba(79, 172, 254, .1);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: #cbd5e1;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 15px;
+  height: 34px;
+  justify-content: center;
+  transition: background .2s, border-color .2s, color .2s;
+  width: 34px;
+}
+
+.sound-toggle:hover {
+  background: rgba(79, 172, 254, .2);
+  border-color: rgba(79, 172, 254, .45);
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .skill-card,
+  .training-card,
+  .achievement-card,
+  .contact-card,
+  .training-areas li,
+  .button,
+  .project-demo-button {
+    transition: none;
+  }
+}

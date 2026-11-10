@@ -28,6 +28,47 @@ type ConnectionResponse = {
   message: string
 }
 
+function playInterfaceSound(context: AudioContext) {
+  const now = context.currentTime
+  const oscillator = context.createOscillator()
+  const toneVolume = context.createGain()
+  const noise = context.createBufferSource()
+  const noiseVolume = context.createGain()
+  const duration = 0.045
+  const buffer = context.createBuffer(1, Math.ceil(context.sampleRate * duration), context.sampleRate)
+  const samples = buffer.getChannelData(0)
+
+  for (let index = 0; index < samples.length; index += 1) {
+    samples[index] = (Math.random() * 2 - 1) * (1 - index / samples.length)
+  }
+
+  noise.buffer = buffer
+  noiseVolume.gain.setValueAtTime(0.16, now)
+  noiseVolume.gain.exponentialRampToValueAtTime(0.0001, now + duration)
+
+  oscillator.type = 'triangle'
+  oscillator.frequency.setValueAtTime(1450, now)
+  oscillator.frequency.exponentialRampToValueAtTime(480, now + duration)
+  toneVolume.gain.setValueAtTime(0.0001, now)
+  toneVolume.gain.exponentialRampToValueAtTime(0.13, now + 0.003)
+  toneVolume.gain.exponentialRampToValueAtTime(0.0001, now + duration)
+
+  noise.connect(noiseVolume)
+  noiseVolume.connect(context.destination)
+  oscillator.connect(toneVolume)
+  toneVolume.connect(context.destination)
+  noise.start(now)
+  noise.stop(now + duration)
+  oscillator.start(now)
+  oscillator.stop(now + duration)
+  oscillator.addEventListener('ended', () => {
+    oscillator.disconnect()
+    toneVolume.disconnect()
+    noise.disconnect()
+    noiseVolume.disconnect()
+  }, { once: true })
+}
+
 function isConnectionRequest(text: string): boolean {
   return /\bconnect(?:ion|ing)?\b|\bget in touch\b|\breach out\b|\bcontact(?: you| me)?\b/i.test(text)
 }
@@ -293,6 +334,51 @@ function WhyHireMe() {
 }
 
 function App() {
+  const [soundEnabled, setSoundEnabled] = useState(true)
+  const soundEnabledRef = useRef(soundEnabled)
+  const audioContextRef = useRef<AudioContext | null>(null)
+
+  function toggleSound() {
+    const enabled = !soundEnabledRef.current
+    soundEnabledRef.current = enabled
+    setSoundEnabled(enabled)
+  }
+
+  useEffect(() => {
+    function playClickSound(event: MouseEvent) {
+      if (!(event.target instanceof Element)) return
+      const control = event.target.closest<HTMLElement>('button, a[href]')
+      if (!control || control.matches(':disabled, [aria-disabled="true"]')) return
+      if (control.classList.contains('sound-toggle')) return
+      if (!soundEnabledRef.current || !('AudioContext' in window)) return
+
+      const context = audioContextRef.current ?? new AudioContext()
+      audioContextRef.current = context
+
+      if (context.state === 'suspended') {
+        void context.resume().then(() => playInterfaceSound(context)).catch((error: unknown) => {
+          console.error('Unable to play the interface sound.', error)
+        })
+        return
+      }
+
+      playInterfaceSound(context)
+    }
+
+    document.addEventListener('click', playClickSound, true)
+    return () => {
+      document.removeEventListener('click', playClickSound, true)
+      void audioContextRef.current?.close()
+      audioContextRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    document.querySelectorAll<HTMLVideoElement>('video').forEach((video) => {
+      video.muted = !soundEnabled
+    })
+  }, [soundEnabled])
+
   useEffect(() => {
     void fetch('https://portfolio-9jph.onrender.com/health')
       .then((response) => {
@@ -321,7 +407,8 @@ function App() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-visible')
-            observer.unobserve(entry.target)
+          } else {
+            entry.target.classList.remove('is-visible')
           }
         })
       },
@@ -370,7 +457,7 @@ function App() {
 
   return (
     <>
-      <Menu />
+      <Menu soundEnabled={soundEnabled} onToggleSound={toggleSound} />
       <main className="page-shell">
         <Hero />
         <WhyHireMe />
