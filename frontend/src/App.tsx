@@ -34,7 +34,7 @@ function playInterfaceSound(context: AudioContext) {
   const toneVolume = context.createGain()
   const noise = context.createBufferSource()
   const noiseVolume = context.createGain()
-  const duration = 0.045
+  const duration = 0.12
   const buffer = context.createBuffer(1, Math.ceil(context.sampleRate * duration), context.sampleRate)
   const samples = buffer.getChannelData(0)
 
@@ -43,14 +43,14 @@ function playInterfaceSound(context: AudioContext) {
   }
 
   noise.buffer = buffer
-  noiseVolume.gain.setValueAtTime(0.16, now)
-  noiseVolume.gain.exponentialRampToValueAtTime(0.0001, now + duration)
+  noiseVolume.gain.setValueAtTime(0.035, now)
+  noiseVolume.gain.exponentialRampToValueAtTime(0.0001, now + 0.025)
 
-  oscillator.type = 'triangle'
-  oscillator.frequency.setValueAtTime(1450, now)
-  oscillator.frequency.exponentialRampToValueAtTime(480, now + duration)
+  oscillator.type = 'sine'
+  oscillator.frequency.setValueAtTime(1050, now)
+  oscillator.frequency.exponentialRampToValueAtTime(280, now + duration)
   toneVolume.gain.setValueAtTime(0.0001, now)
-  toneVolume.gain.exponentialRampToValueAtTime(0.13, now + 0.003)
+  toneVolume.gain.exponentialRampToValueAtTime(0.18, now + 0.003)
   toneVolume.gain.exponentialRampToValueAtTime(0.0001, now + duration)
 
   noise.connect(noiseVolume)
